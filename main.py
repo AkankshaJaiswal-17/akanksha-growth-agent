@@ -39,7 +39,7 @@ def add_task(task_name):
     if not task_name:
         print("Task cannot be empty ! ")
 
-    elif task_name in tasks: 
+    elif task_name.lower() in [task.lower() for task in tasks]: 
         print("Task already exists !")
 
     else:
@@ -56,31 +56,35 @@ def list_tasks():
     
 
 def complete_task(task_name):
-    if task_name in tasks:
-        tasks.remove(task_name)
-        save_tasks()
-        print("Task Completed:" , task_name)
+    task_name = task_name.strip()
 
-        while True:
-            try:
-                rating = int(input("Rate your experience (1-5): "))
+    for task in tasks:
+        if task.lower() == task_name.lower():
+            tasks.remove(task)
+            save_tasks()
+            print("Task Completed:", task)
 
-                if 1 <= rating <= 5:
-                    feedback.append({
-                        "task": task_name,
-                        "rating": rating
-                    })
-                    save_feedback()
-                    print("Feedback Saved:", rating)
-                    break
-                else:
-                    print("Invalid Rating !!!")
+            while True:
+                try:
+                    rating = int(input("Rate your experience (1-5): "))
 
-            except ValueError:
-                print("Please Enter a valid number!")
-        
-    else:
-        print("Task Not Found !!!")
+                    if 1 <= rating <= 5:
+                        feedback.append({
+                            "task": task,
+                            "rating": rating
+                        })
+                        save_feedback()
+                        print("Feedback Saved:", rating)
+                        break
+                    else:
+                        print("Invalid Rating !!!")
+
+                except ValueError:
+                    print("Please Enter a valid number!")
+
+            return
+
+    print("Task Not Found !!!")
 
 while True:
 
