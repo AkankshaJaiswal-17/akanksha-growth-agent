@@ -11,6 +11,18 @@ def load_tasks():
     except FileNotFoundError:
         return []
 
+def  save_completed_tasks():
+    with open("completed_tasks.json" , "w") as file:
+        json.dump(completed_tasks, file, indent = 4)
+
+def load_completed_tasks():
+    try:
+        with open("completed_task.json", "r") as file:
+            return json.load(file)
+
+    except FileNotFoundError:
+        return []
+
 import os
 print("Current Folder:", os.getcwd())
 print("JSON file path:", os.path.abspath("tasks.json"))
@@ -32,6 +44,7 @@ print("Welcome to Akanksha's Growth Agent")
 
 tasks = load_tasks()
 feedback = load_feedback()
+completed_tasks = [] = load_completed_tasks()
 
 def add_task(task_name):
     task_name = task_name.strip()
@@ -62,6 +75,10 @@ def complete_task(task_name):
         if task.lower() == task_name.lower():
             tasks.remove(task)
             save_tasks()
+
+            completed_tasks.append(task)
+            save_completed_tasks()
+
             print("Task Completed:", task)
 
             while True:
@@ -94,7 +111,8 @@ while True:
         print("2. View Tasks")
         print("3. Complete Task")
         print("4. View Feedback")
-        print("5. Exit")
+        print("5.View Completed Tasks")
+        print("6. Exit")
     
         choice = int(input("Enter your choice: "))
 
@@ -113,6 +131,9 @@ while True:
             print("Feedback:", feedback)
 
         elif choice == 5:
+            print("Completed Tasks:", completed_tasks)
+
+        elif choice == 6:
             print("Exiting Akanksha's Growth Agent...")
             break
 

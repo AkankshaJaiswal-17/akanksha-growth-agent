@@ -5,3 +5,4 @@ venv/
 
 tasks.json
 feedback.json
+completed_tasks.json
